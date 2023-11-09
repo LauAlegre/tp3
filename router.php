@@ -16,8 +16,6 @@ $router->addRoute('productos/:ID', 'PUT',    'ProductApiController', 'update');
 // $router->addRoute('tareas',     'POST',   'TaskApiController', 'create');
 // $router->addRoute('tareas/:ID', 'GET',    'TaskApiController', 'get');
 
-// $router->addRoute('tareas/:ID', 'DELETE', 'TaskApiController', 'delete');
-
 // $router->addRoute('user/token', 'GET',    'UserApiController', 'getToken'); # UserApiController->getToken()
 
 #               del htaccess resource=(), verbo con el que llamo GET/POST/PUT/etc
