@@ -13,30 +13,37 @@ class ProductApiController extends ApiController
         $this->model = new ProductModel();
     }
 
-    function get(){
-        if (isset($_GET['sort']) && isset($_GET['order'])) {
-            $sort = $_GET['sort'];
-            $order = $_GET['order'];
-            
+    function get($params = [])
+    {
 
-            if ($order == 'desc') {
-                 $productos = $this->model->sortByParamDesc($sort);
-                 $this->view->response($productos,200);
+        if (empty($params)) {
 
-            } elseif ($order == 'asc') {
-                $productos = $this->model->sortByParamAsc($sort);
-                $this->view->response($productos,200);
+            $sort = 'product_id';
+            $order = 'ASC';
 
-            } else {
 
-                $this->view->response('la opciond de ordenar ' . $order . ' no existe.', 404);
+            if (isset($_GET['order'])) {
+                $order = $_GET['order'];
+                if ($order !== 'ASC' && $order !== 'DESC') {
+                    $order = 'ASC';
+                }
             }
-        } else {
-            $productos = $this->model->getProducts();
 
-            $this->view->response($productos,200);
+
+            if (isset($_GET['sort'])) {
+                $sort = $_GET['sort'];
+                $columns = array('product_id', 'nombre_producto', 'tipo_de_product', 'id_marca', 'precio', 'descripcion_product');
+
+                if (!in_array($sort, $columns)) {
+                    $sort = 'product_id';
+                }
+            }
+            $productos = $this->model->getProducts($order, $sort);
+            $this->view->response($productos, 200);
+        } else {
+            //PARTE DE FILTRO POR ID (JOACO)
         }
-       
+        
     }
     function delete($params = [])
     {

@@ -6,15 +6,7 @@ class ProductModel  extends Model {
      * Obtiene y devuelve de la base de datos todas las tareas.
      */
 
-     function getProducts() {
-        $query = $this->db->prepare('SELECT * FROM productos');
-        $query->execute();
-
-        
-        $products = $query->fetchAll(PDO::FETCH_OBJ);
-
-        return $products;
-    }
+    
 
      function getProduct($id) {
         $query = $this->db->prepare('SELECT * FROM productos WHERE ?');
@@ -36,17 +28,13 @@ class ProductModel  extends Model {
         $query->execute([$nameProduct,$typeProduct,$cost,$productDescription,$id_marca,$id]);
     }
 
-    function sortByParamDesc($sort) {
-        $query = $this->db->prepare("SELECT * FROM productos ORDER BY $sort DESC");
+    function getProducts($order, $sort)
+    {
+        $query = $this->db->prepare("SELECT * FROM productos ORDER BY $sort $order");
         $query->execute();
+
         $products = $query->fetchAll(PDO::FETCH_OBJ);
-        return $products;
-    }
-    
-    function sortByParamAsc($sort) {
-        $query = $this->db->prepare("SELECT * FROM productos ORDER BY $sort ASC");
-        $query->execute();
-        $products = $query->fetchAll(PDO::FETCH_OBJ);
+
         return $products;
     }
 }
