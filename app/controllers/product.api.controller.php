@@ -13,7 +13,7 @@ class ProductApiController extends ApiController
         $this->model = new ProductModel();
     }
 
-    function get($params = [])
+    function getProducts($params = [])
     {
 
         if (empty($params)) {
@@ -45,7 +45,7 @@ class ProductApiController extends ApiController
         }
         
     }
-    function delete($params = [])
+    function deleteProduct($params = [])
     {
         $id = $params[':ID'];
         $product = $this->model->getProduct($id);
@@ -57,12 +57,12 @@ class ProductApiController extends ApiController
             $this->view->response('La tarea con id=' . $id . ' no existe.', 404);
         }
     }
-    function update($params = [])
+    function updateProduct($params = [])
     {
         $id = $params[':ID'];
         $tarea = $this->model->getProduct($id);
 
-        if ($tarea) {
+        if (isset($tarea)) {
             $body = $this->getData();
             $nombre_producto = $body->nombre_producto;
             $tipo_de_product = $body->tipo_de_product;
