@@ -9,7 +9,7 @@ class ProductModel  extends Model {
     
 
      function getProduct($id) {
-        $query = $this->db->prepare('SELECT * FROM productos WHERE ?');
+        $query = $this->db->prepare('SELECT * FROM productos WHERE product_id = ?');
         $query->execute([$id]);
 
         
@@ -46,5 +46,12 @@ class ProductModel  extends Model {
         $product = $query->fetchAll(PDO::FETCH_OBJ);
 
         return $product;
+    }
+
+    function insertProduct($nombre_producto, $tipo_de_product, $precio, $descripcion_product, $id_marca){
+        $query = $this->db->prepare('INSERT INTO productos (nombre_producto, tipo_de_product, precio, descripcion_product, id_marca) VALUES(?,?,?,?,?)');
+        $query->execute([$nombre_producto, $tipo_de_product, $precio, $descripcion_product, $id_marca]);
+
+        return $this->db->lastInsertId();
     }
 }

@@ -11,7 +11,7 @@ class MarcasModel  extends Model
 
     function getMarca($id)
     {
-        $query = $this->db->prepare('SELECT * FROM marcas WHERE ?');
+        $query = $this->db->prepare('SELECT * FROM marcas WHERE id_marca = ?');
         $query->execute([$id]);
 
 
@@ -50,5 +50,12 @@ class MarcasModel  extends Model
         $product = $query->fetchAll(PDO::FETCH_OBJ);
 
         return $product;
+    }
+
+    function insertMarca($marca, $descripcion, $sede){
+        $query = $this->db->prepare('INSERT INTO marcas (marca, descripcion, sede) VALUES(?,?,?)');
+        $query->execute([$marca, $descripcion, $sede]);
+
+        return $this->db->lastInsertId();
     }
 }

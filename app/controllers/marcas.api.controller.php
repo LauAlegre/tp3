@@ -51,8 +51,16 @@ class MarcasApiController extends ApiController
         $this->view->response($marcas, 200);
 
     } else {
-        // Aquí puedes manejar la lógica para otros casos, como filtrar por ID
-    }
+        $id = $params[':ID'];
+        $marca = $this->model->getMarca($id);
+            if(!empty($marca)) {
+                return $this->view->response($marca,200);
+            } else {
+                $this->view->response(
+                    ['El producto con el id=' . $id . 'no existe.']
+                , 404);
+                }
+        }
 }
     function deleteMarca($params = [])
     {
@@ -91,6 +99,23 @@ class MarcasApiController extends ApiController
             }
         } else {
             $this->view->response('Ingrese ID', 404);   
+        }
+    }
+
+    function createMarca($params = [])
+    {
+        $body = $this->getData();
+
+        $marca = $body->marca;
+        $descripcion = $body->descripcion;
+        $sede = $body->sede;
+
+        if (empty($marca) || empty($descripcion) || empty($sede)) {
+            $this->view->response("Complete los datos", 400);
+        } else {
+            $id = $this->model->insertMarca($marca, $descripcion, $sede);
+            $producto = $this->model->getMarca($id);
+            $this->view->response($producto, 201);
         }
     }
 }
