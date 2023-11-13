@@ -20,7 +20,7 @@ class MarcasModel  extends Model
         return $product;
     }
 
-    function deleteTask($id)
+    function deletemarca($id)
     {
         $query = $this->db->prepare('DELETE FROM marcas WHERE id_marca = ?');
         $query->execute([$id]);
@@ -40,5 +40,15 @@ class MarcasModel  extends Model
         $products = $query->fetchAll(PDO::FETCH_OBJ);
 
         return $products;
+    }
+    
+    function getMarcaPaginated($page, $size)
+    {
+        $query = $this->db->prepare("SELECT * FROM marcas ORDER BY id_marca ASC LIMIT $page, $size;");
+        $query->execute();
+
+        $product = $query->fetchAll(PDO::FETCH_OBJ);
+
+        return $product;
     }
 }

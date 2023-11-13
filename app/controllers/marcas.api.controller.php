@@ -14,66 +14,83 @@ class MarcasApiController extends ApiController
     }
 
     function getMarcas($params = [])
-    {
+{
+    if (empty($params)) {
+        // Verificar y configurar los parámetros de clasificación
+        $sort = 'id_marca';
+        $order = 'ASC';
 
-        if (empty($params)) {
-
-            $sort = 'id_marca';
-            $order = 'ASC';
-
-
-            if (isset($_GET['order'])) {
-                $order = $_GET['order'];
-                if ($order !== 'ASC' && $order !== 'DESC') {
-                    $order = 'ASC';
-                }
+        if (isset($_GET['order'])) {
+            $order = $_GET['order'];
+            if ($order !== 'ASC' && $order !== 'DESC') {
+                $order = 'ASC';
             }
-
-
-            if (isset($_GET['sort'])) {
-                $sort = $_GET['sort'];
-                $columns = array('id_marca', 'marca', 'descripcion','sede');
-
-                if (!in_array($sort, $columns)) {
-                    $sort = 'id_marcas';
-                }
-            }
-            $productos = $this->model->getMarcas($order, $sort);
-            $this->view->response($productos, 200);
-        } else {
-            //PARTE DE FILTRO POR ID (JOACO)
         }
-        
+
+        if (isset($_GET['sort'])) {
+            $sort = $_GET['sort'];
+            $columns = array('id_marca', 'marca', 'descripcion', 'sede');
+
+            if (!in_array($sort, $columns)) {
+                $sort = 'id_marca';
+            }
+        }
+
+        // Verificar y manejar la paginación
+        if (isset($_GET['size']) && isset($_GET['page'])) {
+            $size = $_GET['size'];
+            $page = $_GET['page'];
+
+            $marcas = $this->model->getMarcaPaginated($page, $size, $order, $sort);
+            $this->view->response($marcas, 200);
+            return;
+        }
+
+        // Si no se proporcionan parámetros de paginación, obtener marcas sin paginación
+        $marcas = $this->model->getMarcas($order, $sort);
+        $this->view->response($marcas, 200);
+
+    } else {
+        // Aquí puedes manejar la lógica para otros casos, como filtrar por ID
     }
+}
     function deleteMarca($params = [])
     {
-        $id = $params[':ID'];
-        $marca = $this->model->getMarca($id);
+        if (!empty($params)) {
+            $id = $params[':ID'];
+            $marca = $this->model->getMarca($id);
 
-        if (isset($marca)) {
-            $this->model->deleteTask($id);
-            $this->view->response('La marca con id=' . $id . ' ha sido borrada.', 200);
+            if (isset($marca)) {
+                $this->model->deleteMarca($id);
+                $this->view->response('La marca con id=' . $id . ' ha sido borrada.', 200);
+            } else {
+                $this->view->response('La marca con id=' . $id . ' no existe.', 404);
+            }
         } else {
-            $this->view->response('La marca con id=' . $id . ' no existe.', 404);
+            $this->view->response('Ingrese ID', 404);
         }
     }
     function updateMarca($params = [])
     {
-        $id = $params[':ID'];
-        $marca_db = $this->model->getMarca($id);
+        if (!empty($params)) {
+            $id = $params[':ID'];
+            $marca_db = $this->model->getMarca($id);
 
-        if (isset($marca_db)) {
-            $body = $this->getData();
-            $marca = $body->marca;
-            $descripcion = $body->descripcion;
-            $sede = $body->sede;
-            
+            if (isset($marca_db)) {
+                $body = $this->getData();
+                $marca = $body->marca;
+                $descripcion = $body->descripcion;
+                $sede = $body->sede;
 
-            $this->model->updateMarca($marca, $descripcion, $sede,$id);
 
-            $this->view->response('La marca con id=' . $id . ' ha sido modificada.', 200);
+                $this->model->updateMarca($marca, $descripcion, $sede, $id);
+
+                $this->view->response('La marca con id=' . $id . ' ha sido modificada.', 200);
+            } else {
+                $this->view->response('La marca con id=' . $id . ' no existe.', 404);
+            }
         } else {
-            $this->view->response('La marca con id=' . $id . ' no existe.', 404);
+            $this->view->response('Ingrese ID', 404);   
         }
     }
 }

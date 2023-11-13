@@ -13,14 +13,19 @@ $router = new Router();
 //tabla productos
 $router->addRoute('productos',     'GET',    'ProductApiController', 'getProducts');
 $router->addRoute('productos/:ID', 'DELETE', 'ProductApiController', 'deleteProduct');
+$router->addRoute('productos',     'DELETE', 'ProductApiController', 'deleteProduct');
 $router->addRoute('productos/:ID', 'PUT',    'ProductApiController', 'updateProduct');
+$router->addRoute('productos',     'PUT',    'ProductApiController', 'updateProduct');
+
 
 
 
 //tabla marcas
 $router->addRoute('marcas',     'GET',    'MarcasApiController', 'getMarcas');
 $router->addRoute('marcas/:ID', 'DELETE', 'MarcasApiController', 'deleteMarca');
+$router->addRoute('marcas',     'DELETE', 'MarcasApiController', 'deleteMarca');
 $router->addRoute('marcas/:ID', 'PUT',    'MarcasApiController', 'updateMarca');
+$router->addRoute('marcas'    , 'PUT',    'MarcasApiController', 'updateMarca');
 // $router->addRoute('tareas',     'POST',   'TaskApiController', 'create');
 // $router->addRoute('tareas/:ID', 'GET',    'TaskApiController', 'get');
 

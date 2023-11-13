@@ -18,7 +18,7 @@ class ProductModel  extends Model {
         return $product;
     }
 
-    function deleteTask($id) {
+    function deleteProduct($id) {
         $query = $this->db->prepare('DELETE FROM productos WHERE product_id = ?');
         $query->execute([$id]);
     }
@@ -36,5 +36,15 @@ class ProductModel  extends Model {
         $products = $query->fetchAll(PDO::FETCH_OBJ);
 
         return $products;
+    }
+
+    function getProductPaginated($page, $size)
+    {
+        $query = $this->db->prepare("SELECT * FROM productos ORDER BY product_id ASC LIMIT $page, $size;");
+        $query->execute();
+
+        $product = $query->fetchAll(PDO::FETCH_OBJ);
+
+        return $product;
     }
 }
