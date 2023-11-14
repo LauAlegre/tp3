@@ -92,10 +92,13 @@ class ProductApiController extends ApiController
                 $precio = $body->precio;
                 $descripcion_product = $body->descripcion_product;
                 $id_marca = $body->id_marca;
+                if (empty($nombre_producto) || empty($tipo_de_product) || empty($precio) || empty($descripcion_product) || empty($id_marca)) {
+                    $this->view->response("Complete los datos", 400);
+                } else {
+                    $this->model->updateProduct($nombre_producto, $tipo_de_product, $precio, $descripcion_product, $id_marca, $id);
 
-                $this->model->updateProduct($nombre_producto, $tipo_de_product, $precio, $descripcion_product, $id_marca, $id);
-
-                $this->view->response('El producto con el id=' . $id . ' ha sido modificada.', 200);
+                    $this->view->response('El producto con el id=' . $id . ' ha sido modificada.', 200);
+                }
             } else {
                 $this->view->response('El producto con el id=' . $id . ' no existe.', 404);
             }

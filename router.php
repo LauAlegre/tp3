@@ -30,10 +30,5 @@ $router->addRoute('marcas',     'DELETE', 'MarcasApiController', 'deleteMarca');
 $router->addRoute('marcas/:ID', 'PUT',    'MarcasApiController', 'updateMarca');
 $router->addRoute('marcas'    , 'PUT',    'MarcasApiController', 'updateMarca');
 $router->addRoute('marcas'    , 'POST',   'MarcasApiController', 'createMarca');
-// $router->addRoute('tareas',     'POST',   'TaskApiController', 'create');
-// $router->addRoute('tareas/:ID', 'GET',    'TaskApiController', 'get');
 
-// $router->addRoute('user/token', 'GET',    'UserApiController', 'getToken'); # UserApiController->getToken()
-
-#               del htaccess resource=(), verbo con el que llamo GET/POST/PUT/etc
 $router->route($_GET['resource'], $_SERVER['REQUEST_METHOD']);

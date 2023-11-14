@@ -11,6 +11,8 @@ Descripción: Obtiene una lista de todos los productos.
 Parámetros:
  order (opcional): Orden de clasificación (ASC o DESC).
  sort (opcional): Campo de clasificación (por ejemplo, product_id, nombre_producto).
+ size(opcional):Numero de pagina
+ page(opcional):Tamaño de pagina
 
 Respuesta:
 Código de Éxito: 200 OK
@@ -124,6 +126,9 @@ Parámetros:
 
 order (opcional): Orden de clasificación (ASC o DESC).
 sort (opcional): Campo de clasificación (por ejemplo, id_marca, marca).
+size(opcional):Numero de pagina
+page(opcional):Tamaño de pagina
+
 Respuesta:
 
 Código de Éxito: 200 OK
